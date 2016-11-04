@@ -16,8 +16,34 @@
 (defun init--install-packages ()
   (packages-install
    '(editorconfig
+     atom-one-dark-theme
 )))
 
+(setq package-list
+    '(editorconfig
+      atom-one-dark-theme
+      auto-complete
+      markdown-mode
+      typescript-mode
+      elixir-mode
+      alchemist
+      helm
+))
 
-(load-theme 'atom-dark t)
+; activate all the packages (in particular autoloads)
+(package-initialize)
+
+; fetch the list of packages available 
+(unless package-archive-contents
+  (package-refresh-contents))
+
+; install the missing packages
+(dolist (package package-list)
+  (unless (package-installed-p package)
+    (package-install package)))
+
+
+(require 'atom-one-dark-theme)
+(load-theme 'atom-one-dark t)
 (editorconfig-mode 1)
+
